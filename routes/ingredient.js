@@ -4,6 +4,20 @@ const { check, validationResult } = require("express-validator");
 const Ingredient = require("../models/Ingredient");
 const Balance = require("../models/Balance");
 
+// @route GET api/balance
+// @dsc Get balance
+// @access Private
+router.get("/balance", async (req, res) => {
+  try {
+    // VERY IMPORTANT NOTE ---If i want single object then it should be used findOne() method
+    const bal = await Balance.findOne();
+    res.json(bal);
+  } catch (err) {
+    console.error(err);
+    res.send("Server Error");
+  }
+});
+
 // @route POST api/ingredient
 // @dsc   Add ingredient
 // @access Private
@@ -76,7 +90,6 @@ router.put("/:id", async (req, res) => {
       // Get latest updated data
       { new: true }
     );
-    console.log(updBalance);
 
     // Increase currentStock by 1
     ingredient = await Ingredient.findByIdAndUpdate(
