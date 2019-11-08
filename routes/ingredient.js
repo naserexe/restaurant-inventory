@@ -46,8 +46,9 @@ router.post(
         currentStock
       });
 
-      const ingredient = await newIngredient.save();
-      res.json(ingredient);
+      await newIngredient.save();
+      const ingredient = await Ingredient.find();
+      res.status(201).json(ingredient);
     } catch (err) {
       console.error(err);
       res.status(500).send("Server Error");
@@ -60,7 +61,7 @@ router.post(
 // @access Private
 router.get("/", async (req, res) => {
   try {
-    const ingredient = await Ingredient.find().sort({ date: -1 });
+    const ingredient = await Ingredient.find();
     res.json(ingredient);
   } catch (err) {
     console.error(err);
@@ -103,6 +104,15 @@ router.put("/:id", async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).send("Server Error");
+  }
+});
+
+router.delete("/:id", async (req, res) => {
+  try {
+    await Ingredient.findByIdAndDelete(req.params.id);
+    res.status(200).json("Deleted successfully");
+  } catch (error) {
+    console.log(error);
   }
 });
 

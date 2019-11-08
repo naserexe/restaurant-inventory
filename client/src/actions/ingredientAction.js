@@ -1,4 +1,11 @@
-import { GET_INGREDIENTS, ERROR, BUY_INGREDIENT, GET_BALANCE } from "./types";
+import {
+  GET_INGREDIENTS,
+  ERROR,
+  BUY_INGREDIENT,
+  GET_BALANCE,
+  ADD_INGREDIENT,
+  DELETE_INGREDIENT
+} from "./types";
 
 import axios from "axios";
 
@@ -36,5 +43,31 @@ export const buyIngredient = _id => async dispatch => {
     });
   } catch (err) {
     console.error(err);
+  }
+};
+
+// Add Ingredient
+export const addIngredient = ingredient => async dispatch => {
+  try {
+    const res = await axios.post("api/ingredient", ingredient);
+    dispatch({
+      type: ADD_INGREDIENT,
+      payload: res.data
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// Delete ingredient
+export const deleteIngredient = _id => async dispatch => {
+  try {
+    await axios.delete(`api/ingredient/${_id}`);
+    dispatch({
+      type: DELETE_INGREDIENT,
+      payload: _id
+    });
+  } catch (error) {
+    console.log(error);
   }
 };

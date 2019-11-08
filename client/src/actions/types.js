@@ -6,3 +6,5 @@ export const ERROR = "ERROR";
 export const BUY_INGREDIENT = "BUY_INGREDIENT";
 export const ADD_DISH = "ADD_DISH";
 export const ADD_RECIPE = "ADD_RECIPE";
+export const SELL_DISH = "SELL_DISH";
+export const DELETE_INGREDIENT = "DELETE_INGREDIENT";

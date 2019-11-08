@@ -1,12 +1,17 @@
 import React from "react";
 import { connect } from "react-redux";
-import { buyIngredient } from "../../actions/ingredientAction";
 
-const IngredientItem = ({ ingredient, buyIngredient }) => {
+import { buyIngredient } from "../../actions/ingredientAction";
+import { deleteIngredient } from "../../actions/ingredientAction";
+const IngredientItem = ({ ingredient, buyIngredient, deleteIngredient }) => {
   const buy = () => {
     // @ TODO: Buy ingredient
 
     buyIngredient(ingredient._id);
+  };
+
+  const deleteHandler = () => {
+    deleteIngredient(ingredient._id);
   };
   return (
     <tr>
@@ -14,8 +19,14 @@ const IngredientItem = ({ ingredient, buyIngredient }) => {
       <td>{ingredient.currentStock}</td>
       <td>{ingredient.cost}</td>
       <td>
-        <button onClick={buy} className='waves-effect red darken-1 btn-small'>
+        <button onClick={buy} className='waves-effect blue darken-1 btn-small'>
           BUY
+        </button>
+        <button
+          onClick={deleteHandler}
+          className='waves-effect red darken-1 btn-small'
+        >
+          DELETE
         </button>
       </td>
     </tr>
@@ -24,5 +35,5 @@ const IngredientItem = ({ ingredient, buyIngredient }) => {
 
 export default connect(
   null,
-  { buyIngredient }
+  { buyIngredient, deleteIngredient }
 )(IngredientItem);

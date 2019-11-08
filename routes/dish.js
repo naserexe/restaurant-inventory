@@ -128,10 +128,11 @@ router.put("/:id", async (req, res) => {
           },
           { new: true }
         );
-        res.status(200).json({ updBalance, ingredient });
       });
+      const ingredient = await Ingredient.find();
+      res.status(200).json({ ingredient, updBalance });
     } else {
-      res.status(404).send("Dish does not exist");
+      return res.status(404).send("Dish does not exist");
     }
   } catch (err) {
     console.error(err);

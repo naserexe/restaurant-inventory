@@ -1,9 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
+import { sellDish } from "../../actions/dishAction";
 
-const DishItem = ({ dish, ingredient: { ingredients }, balance: { taka } }) => {
+const DishItem = ({ dish, sellDish }) => {
   const sell = () => {
-    // @ TODO Selling dish
+    sellDish(dish._id);
   };
 
   const addRecipe = () => {
@@ -24,7 +25,11 @@ const DishItem = ({ dish, ingredient: { ingredients }, balance: { taka } }) => {
       </td>
       <td>
         {" "}
-        <a href='#add-recipe-modal' className='modal-trigger'>
+        <a
+          onClick={addRecipe}
+          href='#add-recipe-modal'
+          className='modal-trigger'
+        >
           Add Recipe
         </a>
       </td>
@@ -49,5 +54,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  {}
+  { sellDish }
 )(DishItem);

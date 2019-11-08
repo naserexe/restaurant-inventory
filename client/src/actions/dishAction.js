@@ -1,4 +1,11 @@
-import { GET_DISH, ERROR, ADD_DISH, ADD_RECIPE } from "./types";
+import {
+  GET_DISH,
+  ERROR,
+  ADD_DISH,
+  ADD_RECIPE,
+  SELL_DISH,
+  GET_INGREDIENTS
+} from "./types";
 
 import axios from "axios";
 
@@ -51,5 +58,23 @@ export const addRecipe = (dish_id, ingredient_id) => async dispatch => {
       type: ERROR,
       payload: err.response
     });
+  }
+};
+
+// Selling Dish
+export const sellDish = dish_id => async dispatch => {
+  try {
+    const res = await axios.put(`api/dish/${dish_id}`);
+    dispatch({
+      type: SELL_DISH,
+      payload: res.data
+    });
+    const ingredient = await axios.get("api/ingredient/");
+    dispatch({
+      type: GET_INGREDIENTS,
+      payload: ingredient.data
+    });
+  } catch (error) {
+    console.log(error);
   }
 };

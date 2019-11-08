@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { connect } from "react-redux";
+import { addIngredient } from "../actions/ingredientAction";
 
 import "materialize-css/dist/css/materialize.min.css";
 
-const AddIngredient = () => {
+const AddIngredient = props => {
   const [name, setName] = useState("");
   const [cost, setCost] = useState("");
 
@@ -11,8 +13,7 @@ const AddIngredient = () => {
       name,
       cost
     };
-
-    console.log(newInfo);
+    props.addIngredient(newInfo);
   };
   return (
     <div id='add-ingredient-modal' className='modal' style={{ width: "20%" }}>
@@ -59,4 +60,7 @@ const AddIngredient = () => {
   );
 };
 
-export default AddIngredient;
+export default connect(
+  null,
+  { addIngredient }
+)(AddIngredient);

@@ -14,6 +14,7 @@ const SelectOptions = ({ value }) => {
         })}
       </select>
     ));
+    // eslint-disable-next-line
   }, []);
 
   return options;
