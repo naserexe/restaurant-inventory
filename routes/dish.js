@@ -41,7 +41,6 @@ router.post(
     try {
       const newDish = new Dish({
         name,
-
         sellingPrice
       });
       const dish = await newDish.save();
@@ -78,7 +77,7 @@ router.post(
       const newDish = {
         recipeName: ingredient.name,
         quantity,
-        recipe_Id: ingredient._id
+        recipe_id: ingredient._id
       };
 
       // Add newDish object to recipe array
@@ -99,50 +98,41 @@ router.post(
 // @access Private
 router.put("/:id", async (req, res) => {
   try {
-    // Check to see Dish is exist
-    let dish = await Dish.findById(req.params.id);
-    const { sellingPrice, recipe } = dish;
-    const { recipeName, quantity } = recipe;
+    // Check to see if the dish exists
 
-    // Find ingredient model for updating ingredients
-    let ingredient = await Ingredient.findById(recipe);
+    const dish = await Dish.findById(req.params.id);
 
-    recipe.map(r => {
-      res.json(r._id);
-    });
+    if (dish) {
+      // // //Update balance according to dish price
+      let currentBalance = await Balance.findOne();
+      const { _id, balanceAmount } = currentBalance;
+      const sellingPrice = dish.sellingPrice;
+      let newBalance = balanceAmount + sellingPrice;
+      const updBalance = await Balance.findByIdAndUpdate(
+        _id,
+        {
+          $set: { balanceAmount: newBalance }
+        },
+        // Get latest updated data
+        { new: true }
+      );
 
-    // Update Ingredients according to dish requirement
-
-    // let ingredientShouldUpdate = recipe.filter(i => {
-    //   //Pull out which ingredient need to update
-    //   return i._id == req.params.ingredient_id;
-    // });
-
-    // const ingr = ingredientShouldUpdate[0].quantity;
-
-    // let ingredient = await Ingredient.findById("5d64edb3063bd73bd8009d64");
-
-    // ingredient = await Ingredient.findByIdAndUpdate(
-    //   ingredient._id,
-    //   {
-    //     $set: { currentStock: ingredient.currentStock - ingr }
-    //   }, // Get latest updated data
-    //   { new: true }
-    // );
-
-    // //Update balance according to dish price
-    // let currentBalance = await Balance.findOne();
-    // const { _id, balanceAmount } = currentBalance;
-
-    // let newBalance = balanceAmount + sellingPrice;
-    // const updBalance = await Balance.findByIdAndUpdate(
-    //   _id,
-    //   {
-    //     $set: { balanceAmount: newBalance }
-    //   },
-    //  // Get latest updated data
-    //   { new: true }
-    // );
+      // Adjust stock amount
+      let recipes = dish.recipe;
+      recipes.map(async recipe => {
+        let ingredient = await Ingredient.findById(recipe.recipe_id);
+        ingredient = await Ingredient.findByIdAndUpdate(
+          recipe.recipe_id,
+          {
+            $set: { currentStock: ingredient.currentStock - recipe.quantity }
+          },
+          { new: true }
+        );
+        res.status(200).json({ updBalance, ingredient });
+      });
+    } else {
+      res.status(404).send("Dish does not exist");
+    }
   } catch (err) {
     console.error(err);
     res.status(500).send("Server Error");

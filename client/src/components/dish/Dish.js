@@ -21,6 +21,7 @@ const Dish = ({ dish: { dishes }, getDishes }) => {
           <tr>
             <th>Item</th>
             <th>Recipe</th>
+            <th>Add Recipe</th>
             <th>Selling Price</th>
             <th>Action</th>
           </tr>

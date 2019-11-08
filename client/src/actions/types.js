@@ -4,3 +4,5 @@ export const GET_DISH = "GET_DISH";
 export const GET_BALANCE = "GET_BALANCE";
 export const ERROR = "ERROR";
 export const BUY_INGREDIENT = "BUY_INGREDIENT";
+export const ADD_DISH = "ADD_DISH";
+export const ADD_RECIPE = "ADD_RECIPE";

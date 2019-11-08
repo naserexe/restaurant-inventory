@@ -1,10 +1,15 @@
 import React from "react";
+import { connect } from "react-redux";
 
-const DishItem = ({ dish }) => {
+const DishItem = ({ dish, ingredient: { ingredients }, balance: { taka } }) => {
   const sell = () => {
     // @ TODO Selling dish
+  };
+
+  const addRecipe = () => {
     console.log(dish._id);
   };
+
   return (
     <tr>
       <td>{dish.name}</td>
@@ -16,6 +21,12 @@ const DishItem = ({ dish }) => {
             </p>
           );
         })}
+      </td>
+      <td>
+        {" "}
+        <a href='#add-recipe-modal' className='modal-trigger'>
+          Add Recipe
+        </a>
       </td>
       <td>{dish.sellingPrice}</td>
       <td>
@@ -31,4 +42,12 @@ const DishItem = ({ dish }) => {
   );
 };
 
-export default DishItem;
+const mapStateToProps = state => ({
+  ingredient: state.ingredient,
+  balance: state.balance
+});
+
+export default connect(
+  mapStateToProps,
+  {}
+)(DishItem);

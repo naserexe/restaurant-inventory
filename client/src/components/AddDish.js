@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { connect } from "react-redux";
+import { addDish } from "../actions/dishAction";
 
 import "materialize-css/dist/css/materialize.min.css";
 
-const AddDish = () => {
+const AddDish = ({ addDish }) => {
   const [name, setName] = useState("");
   const [sellingPrice, setSellingPrice] = useState("");
 
@@ -11,8 +13,7 @@ const AddDish = () => {
       name,
       sellingPrice
     };
-
-    console.log(newInfo);
+    addDish(newInfo);
   };
   return (
     <div id='add-dish-modal' className='modal' style={{ width: "20%" }}>
@@ -52,11 +53,14 @@ const AddDish = () => {
           onClick={onSubmit}
           className='modal-close waves-effect purple waves-light btn'
         >
-          Enter
+          Add
         </a>
       </div>
     </div>
   );
 };
 
-export default AddDish;
+export default connect(
+  null,
+  { addDish }
+)(AddDish);

@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import IngredientItem from "./IngredientItem";
 import { connect } from "react-redux";
 import { getIngredients } from "../../actions/ingredientAction";
+import SelectOption from "../layout/SelectOptions";
 
 const Ingredient = ({ ingr: { ingredients }, getIngredients }) => {
   useEffect(() => {

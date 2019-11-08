@@ -7,6 +7,7 @@ import AddIngredient from "./components/AddIngredient";
 import AddDish from "./components/AddDish";
 import Ingredient from "./components/ingredient/Ingredient";
 import Dish from "./components/dish/Dish";
+import AddRecipe from "./components/layout/AddRecipe";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
 
         <AddIngredient />
         <AddDish />
+        <AddRecipe />
         <div className='row'>
           <div className='col s6'>
             <Ingredient />
