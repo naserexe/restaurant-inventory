@@ -4,7 +4,9 @@ import {
   ADD_DISH,
   ADD_RECIPE,
   SELL_DISH,
-  GET_INGREDIENTS
+  GET_INGREDIENTS,
+  REMOVE_TEMP,
+  DELETE_DISH
 } from "./types";
 
 import axios from "axios";
@@ -46,18 +48,27 @@ export const addDish = newDish => async dispatch => {
 };
 
 // Add recipe to Dish
-export const addRecipe = (dish_id, ingredient_id) => async dispatch => {
+export const addRecipe = (
+  dish_id,
+  ingredient_id,
+  recipeInfo
+) => async dispatch => {
   try {
-    const res = await axios.post(`api/dish/recipe/${dish_id}/${ingredient_id}`);
+    const res = await axios.post(
+      `api/dish/recipe/${dish_id}/${ingredient_id}`,
+      recipeInfo
+    );
+
     dispatch({
       type: ADD_RECIPE,
       payload: res.data
     });
-  } catch (err) {
     dispatch({
-      type: ERROR,
-      payload: err.response
+      type: REMOVE_TEMP,
+      payload: {}
     });
+  } catch (err) {
+    console.log(err);
   }
 };
 
@@ -73,6 +84,19 @@ export const sellDish = dish_id => async dispatch => {
     dispatch({
       type: GET_INGREDIENTS,
       payload: ingredient.data
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// Delete dish
+export const deleteDish = _id => async dispatch => {
+  try {
+    await axios.delete(`api/dish/${_id}`);
+    dispatch({
+      type: DELETE_DISH,
+      payload: _id
     });
   } catch (error) {
     console.log(error);

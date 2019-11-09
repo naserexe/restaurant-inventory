@@ -1,4 +1,4 @@
-import { GET_DISH, ADD_DISH, ADD_RECIPE } from "../actions/types";
+import { GET_DISH, ADD_DISH, ADD_RECIPE, DELETE_DISH } from "../actions/types";
 
 const initialState = {
   dishes: []
@@ -6,17 +6,20 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case DELETE_DISH:
+      return {
+        ...state,
+        dishes: state.dishes.filter(dish => dish._id !== action.payload)
+      };
     case ADD_RECIPE:
       return {
         ...state,
-        dishes: [...state.dishes]
+        dishes: action.payload
       };
     case ADD_DISH:
       return {
         ...state,
-        dishes: state.dishes.map(dish =>
-          dish._id === action.payload._id ? action.payload : dish
-        )
+        dishes: action.payload
       };
     case GET_DISH:
       return {

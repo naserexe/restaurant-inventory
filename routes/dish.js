@@ -43,7 +43,8 @@ router.post(
         name,
         sellingPrice
       });
-      const dish = await newDish.save();
+      await newDish.save();
+      const dish = await Dish.find();
       res.json(dish);
     } catch (err) {
       console.error(err);
@@ -84,8 +85,9 @@ router.post(
       dish.recipe.unshift(newDish);
 
       // Save change
-      const updDish = await dish.save();
-      res.json(updDish);
+      await dish.save();
+      const updDish = await Dish.find();
+      res.status(201).json(updDish);
     } catch (err) {
       console.error(err);
       res.status(500).send("Server Error");
@@ -140,8 +142,20 @@ router.put("/:id", async (req, res) => {
   }
 });
 
+// Get all dish
 router.get("/get_all", async (req, res) => {
   let dish = await Dish.find();
+});
+
+// Delete dish
+router.delete("/:id", async (req, res) => {
+  try {
+    await Dish.findByIdAndDelete(req.params.id);
+    res.status(200).json("Successfully deleted");
+  } catch (error) {
+    res.status(500).json("Server Error");
+    console.log(error);
+  }
 });
 
 module.exports = router;

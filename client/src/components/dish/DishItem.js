@@ -1,14 +1,22 @@
 import React from "react";
 import { connect } from "react-redux";
-import { sellDish } from "../../actions/dishAction";
+import M from "materialize-css/dist/js/materialize.min";
 
-const DishItem = ({ dish, sellDish }) => {
-  const sell = () => {
+import { sellDish, deleteDish } from "../../actions/dishAction";
+import { storeTemp } from "../../actions/temporaryActions";
+
+const DishItem = ({ dish, sellDish, storeTemp, deleteDish }) => {
+  const handleSell = () => {
     sellDish(dish._id);
   };
 
   const addRecipe = () => {
-    console.log(dish._id);
+    storeTemp(dish._id);
+  };
+
+  const handleDelete = () => {
+    deleteDish(dish._id);
+    M.toast({ html: "Dish deleted successfully" });
   };
 
   return (
@@ -33,14 +41,20 @@ const DishItem = ({ dish, sellDish }) => {
           Add Recipe
         </a>
       </td>
-      <td>{dish.sellingPrice}</td>
+      <td>${dish.sellingPrice}</td>
       <td>
         {" "}
         <button
-          onClick={sell}
+          onClick={handleSell}
           className='waves-effect green darken-1 btn-small'
         >
           SELL
+        </button>
+        <button
+          onClick={handleDelete}
+          className='waves-effect red darken-1 btn-small'
+        >
+          Delete
         </button>
       </td>
     </tr>
@@ -54,5 +68,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { sellDish }
+  { sellDish, storeTemp, deleteDish }
 )(DishItem);

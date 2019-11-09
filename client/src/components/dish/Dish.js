@@ -15,8 +15,8 @@ const Dish = ({ dish: { dishes }, getDishes }) => {
 
   return (
     <div>
-      <h4>Dish</h4>
-      <table className='striped'>
+      <h4>Dishes</h4>
+      <table className='striped centered'>
         <thead>
           <tr>
             <th>Item</th>

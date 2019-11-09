@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { addDish } from "../actions/dishAction";
+import { addDish } from "../../actions/dishAction";
+
+import M from "materialize-css/dist/js/materialize.min";
 
 import "materialize-css/dist/css/materialize.min.css";
 
@@ -9,11 +11,21 @@ const AddDish = ({ addDish }) => {
   const [sellingPrice, setSellingPrice] = useState("");
 
   const onSubmit = () => {
-    const newInfo = {
-      name,
-      sellingPrice
-    };
-    addDish(newInfo);
+    if (name === "" || sellingPrice === "") {
+      M.toast({ html: "Please enter name and selling price" });
+    } else {
+      const newInfo = {
+        name,
+        sellingPrice
+      };
+
+      addDish(newInfo);
+      M.toast({ html: `${name} successfully added` });
+
+      // Clear fields
+      setName("");
+      setSellingPrice("");
+    }
   };
   return (
     <div id='add-dish-modal' className='modal' style={{ width: "20%" }}>

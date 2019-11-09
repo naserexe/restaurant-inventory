@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Select from "react-select";
 import { connect } from "react-redux";
+import M from "materialize-css/dist/js/materialize.min";
 
 import { getIngredients } from "../../actions/ingredientAction";
 import { addRecipe } from "../../actions/dishAction";
@@ -8,25 +9,36 @@ import { addRecipe } from "../../actions/dishAction";
 const AddRecipe = ({
   ingredient: { ingredients },
   getIngredients,
-  addRecipe
+  addRecipe,
+  temp
 }) => {
-  const [recipeName, setRecipeName] = useState("");
   const [quantity, setQuantity] = useState("");
+  const [recipe_id, setRecipe_id] = useState("");
+  const [name, setName] = useState("");
 
   const onSubmit = () => {
-    addRecipe();
-    const newInfo = {
-      recipeName,
-      quantity
-    };
+    if (quantity === "" || recipe_id === "") {
+      M.toast({ html: "Please select recipe and quantity" });
+    } else {
+      const recipeInfo = {
+        quantity
+      };
 
-    console.log(newInfo);
+      addRecipe(temp.temp_dish_id, recipe_id, recipeInfo);
+      M.toast({ html: `${name} recipe successfully added` });
+
+      // Clear fields
+      setName("");
+      setQuantity("");
+      setRecipe_id("");
+    }
   };
 
   let options = ingredients.map(i => {
     return {
       label: i.name,
-      value: i.name
+      value: i.name,
+      _id: i._id
     };
   });
 
@@ -38,7 +50,10 @@ const AddRecipe = ({
           <div className='input-field'>
             <Select
               className='basic-single'
-              onChange={opt => setRecipeName(opt.value)}
+              onChange={opt => {
+                setRecipe_id(opt._id);
+                setName(opt.value);
+              }}
               options={options}
             />
           </div>
@@ -71,7 +86,8 @@ const AddRecipe = ({
 };
 
 const mapStateToProps = state => ({
-  ingredient: state.ingredient
+  ingredient: state.ingredient,
+  temp: state.temporary
 });
 
 export default connect(

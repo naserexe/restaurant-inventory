@@ -20,11 +20,11 @@ const Navbar = ({ bal: { taka }, getBalance }) => {
   return (
     <nav className='purple'>
       <div className='nav-wrapper'>
-        <Link to='/' className='brand-logo'>
+        <Link to='/' className='brand-logo center'>
           MERN Restaurant Management
         </Link>
         <ul id='nav-mobile' className='right hide-on-med-and-down'>
-          <li>Balance: {taka.balanceAmount}</li>
+          <li>Balance: ${taka.balanceAmount}</li>
 
           <li>
             <a href='#add-dish-modal' className='modal-trigger'>
