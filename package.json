@@ -13,7 +13,7 @@
   "author": "Abdullah Naser",
   "license": "ISC",
   "dependencies": {
-    "config": "^3.2.4",
+    "config": "^3.3.8",
     "express": "^4.17.1",
     "express-validator": "^6.2.0",
     "mongoose": "^5.7.9"
